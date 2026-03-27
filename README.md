@@ -1,8 +1,13 @@
 Налаштування 
 
 Слайдер приймає об'єкт конфігурації під час ініціалізації:
+
 showButtons (boolean): Відображення кнопок керування.
+
 showIndicators (boolean): Відображення крапок-пагінації. За замовчуванням false.
+
 autoplay (boolean): Автоматичне відтворення. 
+
 interval (number): Інтервал зміни слайдів у мс.
-pauseOnHover (boolean): (Тільки для SwipeSlider) Зупинка відтворення при наведенні.
+
+pauseOnHover (boolean): Зупинка відтворення при наведенні(Тільки для SwipeSlider) 
