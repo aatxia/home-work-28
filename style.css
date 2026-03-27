@@ -1,5 +1,6 @@
 .slider {
-    width: 600px;
+    max-width: 600px; 
+    width: 100%;     
     height: 300px; 
     margin: auto;
     overflow: hidden;
@@ -47,7 +48,7 @@
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.prev:hover, .next:hover {
+.prev:hover, .next:hover, .pause:hover {
     background: rgba(61, 148, 235, 1);
     transform: scale(1.1);
 }
@@ -64,15 +65,6 @@
     box-sizing: border-box;
 }
 
-.slider-btn h1 {
-    color: rgb(0, 67, 134);
-    font-size: 32px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    background: rgba(255,255,255,0.5);
-    padding: 4px 12px;
-    border-radius: 6px;
-    z-index: 10; 
-}
 .indicators {
     position: absolute;
     bottom: 15px; 
@@ -82,6 +74,7 @@
     gap: 10px; 
     z-index: 10; 
 }
+
 .dot {
     width: 14px;
     height: 14px;
@@ -94,4 +87,14 @@
 .dot.active {
     background: rgba(61, 148, 235, 1); 
     box-shadow: 0 0 5px rgba(0,0,0,0.5); 
+}
+
+@media (max-width: 480px) {
+    .prev, .next, .pause {
+        font-size: 14px;
+        padding: 4px 6px;
+    }
+    .slider {
+        height: 250px; 
+    }
 }

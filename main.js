@@ -248,53 +248,60 @@ class Slider {
     this.slides = this.container.querySelectorAll(".slide");
     this.timer = null;
     this.isPlaying = false;
-
     this.conf = Object.assign({
       showButtons: true, 
       showIndicators: false,
       autoplay: true,
       interval: 3000
-    }, conf)
+    }, conf);
+    
     this.init();
   }
+
   init() {
-    if (this.conf.showButtons === true){
+    if (this.conf.showButtons === true) {
       this.createButtons();
     }
     if (this.conf.showIndicators === true) {
       this.createIndicators();
     }
     this.initKeyboard();
+    
     if (this.conf.autoplay === true) {
       this.startAutoPlay();
-  }
+    }
     this.showSlide(this.current);
   }
 
   startAutoPlay() {
-    clearInterval(this.timer);
+    clearInterval(this.timer); 
     this.timer = setInterval(() => this.next(), this.conf.interval);
     this.isPlaying = true;
   }
-  stopAutoPlay(){
+
+  stopAutoPlay() {
     clearInterval(this.timer); 
     this.isPlaying = false;
   }
-  togglePlay(){
+
+  togglePlay() {
     this.conf.autoplay = !this.conf.autoplay;
+    
     if (this.conf.autoplay) {
       this.startAutoPlay();
     } else {
       this.stopAutoPlay();
     }
   }
-  initKeyboard(){
+
+  initKeyboard() {
     document.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') this.next();
       if (e.key === 'ArrowLeft') this.prev(); 
-  });
+    });
   }
-  createButtons(){
+
+  createButtons() {
     const btnCon = document.createElement("div");
     btnCon.className = "slider-btn";
   
@@ -315,71 +322,76 @@ class Slider {
     btnCon.appendChild(pauseBtn);
   
     this.container.appendChild(btnCon);
+    
     prevBtn.addEventListener('click', () => this.prev());
     nextBtn.addEventListener('click', () => this.next());
     pauseBtn.addEventListener('click', () => this.togglePlay());
   }
-  showSlide(index){
+
+  showSlide(index) {
     this.slides.forEach(slide => { 
       slide.classList.remove("active"); 
-  });
-  if(this.conf.showIndicators === true && this.dots) {
-    this.dots.forEach(dot => {
-        dot.classList.remove("active");
     });
-    this.dots[index].classList.add("active");
+    
+    if(this.conf.showIndicators === true && this.dots) {
+      this.dots.forEach(dot => {
+          dot.classList.remove("active");
+      });
+      this.dots[index].classList.add("active");
+    }
+    
+    this.slides[index].classList.add("active");
   }
-  this.slides[index].classList.add("active");
-  }
+
   next() {
     this.current++; 
+    if (this.current >= this.slides.length) {
+        this.current = 0;
+    }
+    this.showSlide(this.current);
+  }
 
-  if (this.current >= this.slides.length) {
-      this.current = 0;
-  }
-  this.showSlide(this.current);
-  }
-  prev(){
+  prev() {
     this.current--; 
     if (this.current < 0) {
         this.current = this.slides.length - 1;
     }
-    
     this.showSlide(this.current);
   }
 
-  createIndicators(){
+  createIndicators() {
     const dotsCon = document.createElement("div");
-  dotsCon.className = "indicators"; 
-  this.dots = []; 
+    dotsCon.className = "indicators"; 
+    this.dots = []; 
 
-  this.slides.forEach((slide, index) => {
-    const dot = document.createElement("div");
-    dot.className = "dot";
-    dot.addEventListener("click", () => {
-        this.current = index;
-        this.showSlide(this.current);
+    this.slides.forEach((slide, index) => {
+      const dot = document.createElement("div");
+      dot.className = "dot";
+      dot.addEventListener("click", () => {
+          this.current = index;
+          this.showSlide(this.current);
+      });
+      dotsCon.appendChild(dot); 
+      this.dots.push(dot);     
     });
-    dotsCon.appendChild(dot); 
-    this.dots.push(dot);     
-  });
-  this.container.appendChild(dotsCon);
+    
+    this.container.appendChild(dotsCon);
   }
 }
-
 class SwipeSlider extends Slider {
   constructor(conSel, conf) {
     super(conSel, conf); 
     this.startX = 0;
     this.endX = 0;
     this.isDragging = false;
+    
     if (this.conf.pauseOnHover) {
       this.initHoverPause();
     }
     this.initSwipe();
   }
+
   initSwipe() {
-   
     this.container.addEventListener('touchstart', (e) => {
       this.startX = e.changedTouches[0].screenX;
     });
@@ -389,9 +401,8 @@ class SwipeSlider extends Slider {
       this.handleSwipe();
     });
 
-    
     this.container.addEventListener('mousedown', (e) => {
-      e.preventDefault();
+      e.preventDefault(); 
       this.startX = e.screenX;
       this.isDragging = true;
     });
@@ -407,6 +418,7 @@ class SwipeSlider extends Slider {
       this.isDragging = false;
     });
   }
+
   handleSwipe() {
     const threshold = 50;
     
